@@ -97,6 +97,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
                     self.callAlert("Error", message: error!.localizedDescription)
                 } else if activity != nil {
                     self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: imageToMeme, memedImage: memedImage)
+                    self.saveMeme(self.meme)
                     self.callAlert("SAVED", message: "Memed image was saved.")
                 } else {
                     self.callAlert("Not Saved", message: "Memed image did not save because you cancelled.")
@@ -127,6 +128,12 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
                 })
             }
         }
+    }
+    
+    //method that saves the memed imaged to a singleton instance of type [MemeObject], which will be shared across view controllers
+    func saveMeme(memeToSave: MemeObject) {
+        Memes.sharedInstance.savedMemes.append(memeToSave)
+        print(Memes.sharedInstance.savedMemes.count)
     }
     
     //method that "resets" the image and the text when the cancel button is tapped in the top right corner
