@@ -17,15 +17,19 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
+    func addMeme() {
+        performSegueWithIdentifier("showMemeEditorFromTable", sender: nil)
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier("memeCell") as! MemeTableViewCell
         
         let memeCollection = Memes.sharedInstance.savedMemes
         
-        cell.textLabel?.text = memeCollection[indexPath.row].topText
-        cell.detailTextLabel?.text = memeCollection[indexPath.row].bottomText
-        cell.imageView?.image = memeCollection[indexPath.row].memedImage
+        cell.tableCellTopLabel.text = memeCollection[indexPath.row].topText
+        cell.tableCellBottomLabel.text = memeCollection[indexPath.row].bottomText
+        cell.tableCellImageView.image = memeCollection[indexPath.row].memedImage
         
         return cell
     }
@@ -39,9 +43,17 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addMeme")
+        
+        title = "Sent Memes"
     }
 
 }

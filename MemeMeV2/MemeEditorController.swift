@@ -89,14 +89,15 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
             return
         }
         
-        if let imageToMeme = imageView.image {
+//        if let imageToMeme = imageView.image {
             let memedImage = createMeme()
             let shareVC = UIActivityViewController(activityItems: [memedImage], applicationActivities: [])
             shareVC.completionWithItemsHandler = {[unowned self] (activity, choseAnAction, returnedItems, error) -> Void in
                 if error != nil {
                     self.callAlert("Error", message: error!.localizedDescription)
                 } else if activity != nil {
-                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: imageToMeme, memedImage: memedImage)
+//                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: imageToMeme, memedImage: memedImage)
+                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: memedImage, memedImage: memedImage)
                     self.saveMeme(self.meme)
                     self.callAlert("SAVED", message: "Memed image was saved.")
                 } else {
@@ -104,9 +105,9 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
                 }
             }
             presentViewController(shareVC, animated: true, completion: nil)
-        } else {
-            callAlert("No Image", message: "You must have an image selected in order to share!")
-        }
+//        } else {
+//            callAlert("No Image", message: "You must have an image selected in order to share!")
+//        }
     }
     
     //method that presents the options view controller (as a popoever, even on iPhone) for controlling image scale and font selection; delegation is used for the purpose of enabling the user to update the font from the popover and have the font update in real time (without needing to dismiss the popover); an "UpdateFontDelegate" protocol is defined in the editoptionsviewcontroller class, and this class adopts the protocol by declaring a newFontStyle variable (which, when set in the popover by choosing a new font, updates the value of memeFont which then calls the setText() method to update the screen).
@@ -138,12 +139,13 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     
     //method that "resets" the image and the text when the cancel button is tapped in the top right corner
     func cancel() {
-        imageView.image = nil
-        topTextField.text = Constants.placeholderText
-        bottomTextField.text = Constants.placeholderText
-        memeFont = Constants.defaultFont
-        imageView.contentMode = Constants.defaultScale
-        blackBackground.backgroundColor = UIColor.clearColor()
+        dismissViewControllerAnimated(true, completion: nil)
+//        imageView.image = nil
+//        topTextField.text = Constants.placeholderText
+//        bottomTextField.text = Constants.placeholderText
+//        memeFont = Constants.defaultFont
+//        imageView.contentMode = Constants.defaultScale
+//        blackBackground.backgroundColor = UIColor.clearColor()
     }
     
     //method that sets up the top and bottom meme text fields (note that the memeTextAttributes is a computed property which uses the value of "memeFont" as the font, which can be set using the options button)

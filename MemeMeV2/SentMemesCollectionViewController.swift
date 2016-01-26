@@ -13,12 +13,26 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.delegate = self
+            collectionView.dataSource = self
         }
+    }
+    
+    func addMeme() {
+        performSegueWithIdentifier("showMemeEditorFromCollection", sender: nil)
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        return UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("memeCollectionCell", forIndexPath: indexPath) as! MemeCollectionViewCell
+        
+        let memeCollection = Memes.sharedInstance.savedMemes
+        
+        cell.memeImage.clipsToBounds = true
+        cell.memeImage.image = memeCollection[indexPath.row].memedImage
+        cell.memeLabel.text = memeCollection[indexPath.row].topText
+        
+        return cell
+        
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -30,9 +44,18 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         
     }
     
+    
+    override func viewWillAppear(animated: Bool) {
+        collectionView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addMeme")
+        
+        collectionView.backgroundColor = UIColor.whiteColor()
+        title = "Sent Memes"
     }
     
 }
