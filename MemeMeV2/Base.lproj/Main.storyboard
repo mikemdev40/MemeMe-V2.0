@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -267,42 +268,50 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ry1-IW-7Sv">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MSL-gZ-eGo">
-                                    <size key="itemSize" width="130" height="130"/>
+                                    <size key="itemSize" width="116" height="146"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="memeCollectionCell" id="4hZ-Na-yaS" customClass="MemeCollectionViewCell" customModule="MemeMeV2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="64" width="130" height="130"/>
+                                        <rect key="frame" x="0.0" y="64" width="116" height="146"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="116" height="146"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yi-YL-ran">
-                                                    <rect key="frame" x="15" y="109" width="100" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="drm-Fi-L1g">
-                                                    <rect key="frame" x="15" y="0.0" width="100" height="100"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="drm-Fi-L1g">
+                                                    <rect key="frame" x="2" y="8" width="112" height="112"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="100" id="Vla-Zi-Kve"/>
-                                                        <constraint firstAttribute="width" constant="100" id="fET-2k-J6V"/>
+                                                        <constraint firstAttribute="width" secondItem="drm-Fi-L1g" secondAttribute="height" multiplier="1:1" id="q1Z-eY-pZo"/>
                                                     </constraints>
                                                 </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yi-YL-ran">
+                                                    <rect key="frame" x="39" y="120" width="37.5" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="EhB-cc-ieg"/>
+                                                        <constraint firstAttribute="height" constant="18" id="S8c-WY-b6k"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="EhB-cc-ieg"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailingMargin" secondItem="6yi-YL-ran" secondAttribute="trailing" constant="7" id="CtH-bc-gQ4"/>
-                                            <constraint firstItem="6yi-YL-ran" firstAttribute="leading" secondItem="4hZ-Na-yaS" secondAttribute="leadingMargin" constant="7" id="OGb-3A-yt5"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="6yi-YL-ran" secondAttribute="bottom" constant="-8" id="RuV-aU-1bT"/>
-                                            <constraint firstItem="drm-Fi-L1g" firstAttribute="centerX" secondItem="4hZ-Na-yaS" secondAttribute="centerX" id="YyW-l4-7Mx"/>
-                                            <constraint firstItem="6yi-YL-ran" firstAttribute="top" secondItem="drm-Fi-L1g" secondAttribute="bottom" constant="9" id="kaf-tZ-Rd0"/>
-                                            <constraint firstItem="drm-Fi-L1g" firstAttribute="top" secondItem="4hZ-Na-yaS" secondAttribute="topMargin" constant="-8" id="yAf-78-sw4"/>
+                                            <constraint firstItem="drm-Fi-L1g" firstAttribute="top" secondItem="4hZ-Na-yaS" secondAttribute="topMargin" id="B0d-WM-CAf"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="6yi-YL-ran" secondAttribute="bottom" id="MWG-gS-dFI"/>
+                                            <constraint firstItem="drm-Fi-L1g" firstAttribute="centerX" secondItem="4hZ-Na-yaS" secondAttribute="centerX" id="NsN-SN-sPY"/>
+                                            <constraint firstItem="6yi-YL-ran" firstAttribute="centerX" secondItem="4hZ-Na-yaS" secondAttribute="centerX" id="Ozb-1j-eaH"/>
+                                            <constraint firstItem="6yi-YL-ran" firstAttribute="top" secondItem="drm-Fi-L1g" secondAttribute="bottom" id="p4n-Mm-ouO"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="memeImage" destination="drm-Fi-L1g" id="Dux-RJ-Sf6"/>
@@ -323,6 +332,7 @@
                     <navigationItem key="navigationItem" id="pfv-mf-sd7"/>
                     <connections>
                         <outlet property="collectionView" destination="Ry1-IW-7Sv" id="nXe-0B-Qre"/>
+                        <outlet property="flowLayout" destination="MSL-gZ-eGo" id="7B5-aZ-54a"/>
                         <segue destination="51h-v7-oaw" kind="presentation" identifier="showMemeEditorFromCollection" id="oN1-gs-NWU"/>
                     </connections>
                 </viewController>
@@ -519,6 +529,6 @@
         <image name="background.jpg" width="1600" height="1200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="g7H-CB-piu"/>
+        <segue reference="oN1-gs-NWU"/>
     </inferredMetricsTieBreakers>
 </document>
