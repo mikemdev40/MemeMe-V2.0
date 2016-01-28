@@ -282,19 +282,23 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="drm-Fi-L1g">
-                                                    <rect key="frame" x="2" y="8" width="112" height="112"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="116" height="128"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="drm-Fi-L1g" secondAttribute="height" multiplier="1:1" id="q1Z-eY-pZo"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="q1Z-eY-pZo"/>
+                                                        </mask>
+                                                    </variation>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yi-YL-ran">
-                                                    <rect key="frame" x="39" y="120" width="37.5" height="18"/>
+                                                    <rect key="frame" x="40" y="128" width="37.5" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="EhB-cc-ieg"/>
-                                                        <constraint firstAttribute="height" constant="18" id="S8c-WY-b6k"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -305,13 +309,15 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.81568627449999997" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="drm-Fi-L1g" firstAttribute="top" secondItem="4hZ-Na-yaS" secondAttribute="topMargin" id="B0d-WM-CAf"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="6yi-YL-ran" secondAttribute="bottom" id="MWG-gS-dFI"/>
+                                            <constraint firstItem="drm-Fi-L1g" firstAttribute="leading" secondItem="4hZ-Na-yaS" secondAttribute="leadingMargin" constant="-8" id="5qn-py-vMo"/>
+                                            <constraint firstItem="drm-Fi-L1g" firstAttribute="top" secondItem="4hZ-Na-yaS" secondAttribute="topMargin" constant="-8" id="B0d-WM-CAf"/>
+                                            <constraint firstItem="6yi-YL-ran" firstAttribute="top" secondItem="drm-Fi-L1g" secondAttribute="bottom" id="CrO-wr-iRD"/>
+                                            <constraint firstItem="6yi-YL-ran" firstAttribute="centerX" secondItem="4hZ-Na-yaS" secondAttribute="centerX" id="DaU-3f-DZO"/>
                                             <constraint firstItem="drm-Fi-L1g" firstAttribute="centerX" secondItem="4hZ-Na-yaS" secondAttribute="centerX" id="NsN-SN-sPY"/>
-                                            <constraint firstItem="6yi-YL-ran" firstAttribute="centerX" secondItem="4hZ-Na-yaS" secondAttribute="centerX" id="Ozb-1j-eaH"/>
-                                            <constraint firstItem="6yi-YL-ran" firstAttribute="top" secondItem="drm-Fi-L1g" secondAttribute="bottom" id="p4n-Mm-ouO"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="drm-Fi-L1g" secondAttribute="trailing" constant="-8" id="Oxj-jY-jIN"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="6yi-YL-ran" secondAttribute="bottom" constant="-8" id="yqj-Ik-xxV"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="memeImage" destination="drm-Fi-L1g" id="Dux-RJ-Sf6"/>

@@ -74,8 +74,11 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     
     //method that creates a meme image
     func createMeme() -> UIImage {
+        
+// TODO: FIX SNAPSHOT OF TOP OF SCREEN
+        
         UIGraphicsBeginImageContext(view.frame.size)
-        view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
+        view.drawViewHierarchyInRect(imageView.frame, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -97,13 +100,17 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
                     self.callAlert("Error", message: error!.localizedDescription)
                 } else if activity != nil {
 //                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: imageToMeme, memedImage: memedImage)
-                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: memedImage, memedImage: memedImage)
+                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: memedImage, memedImage: memedImage, date: NSDate())
                     self.saveMeme(self.meme)
                     self.callAlert("SAVED", message: "Memed image was saved.")
                 } else {
                     self.callAlert("Not Saved", message: "Memed image did not save because you cancelled.")
                 }
             }
+        
+// TODO: fix popover problem on iPad for activity share (has something to do with having to present an activity view in a popover on iPad)
+            shareVC.modalPresentationStyle = .Popover
+            shareVC.popoverPresentationController?.barButtonItem = navigationController?.navigationItem.leftBarButtonItem
             presentViewController(shareVC, animated: true, completion: nil)
 //        } else {
 //            callAlert("No Image", message: "You must have an image selected in order to share!")

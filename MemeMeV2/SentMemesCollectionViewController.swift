@@ -12,7 +12,6 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
 
     //MARK: CONSTANTS
     struct Constants {
-        static let CellHorizontalSpacing: CGFloat = 2
         static let CellVerticalSpacing: CGFloat = 2
     }
     
@@ -34,30 +33,42 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
     ///method that lays out the cells, and does do differently depending on whether the device is in portrait or landscape mode
     func layoutCells() {
         var cellWidth: CGFloat
+        var numWide: CGFloat
         if UIDevice.currentDevice().orientation.isPortrait {
-            cellWidth = collectionView.frame.width / 3
+            numWide = 3
+            cellWidth = collectionView.frame.width / numWide
         } else {
-            cellWidth = collectionView.frame.width / 4
+            numWide = 4
+            cellWidth = collectionView.frame.width / numWide
         }
         cellWidth -= Constants.CellVerticalSpacing
         flowLayout.itemSize.width = cellWidth
         flowLayout.itemSize.height = cellWidth
         flowLayout.minimumInteritemSpacing = Constants.CellVerticalSpacing
-        flowLayout.minimumLineSpacing = Constants.CellHorizontalSpacing
+        
+        let actualCellVerticalSpacing: CGFloat = (collectionView.frame.width - (numWide * cellWidth))/(numWide - 1)  //calculates the actual vertical distance
+        flowLayout.minimumLineSpacing = actualCellVerticalSpacing
     }
     
     //DELEGATE METHODS
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("memeCollectionCell", forIndexPath: indexPath) as! MemeCollectionViewCell
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor.blackColor().CGColor
         
         let memeCollection = Memes.sharedInstance.savedMemes
         
         cell.memeImage.clipsToBounds = true
+        cell.memeImage.contentMode = .ScaleAspectFill
         cell.memeImage.image = memeCollection[indexPath.row].memedImage
-        cell.memeLabel.text = memeCollection[indexPath.row].topText
-        cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor.blackColor().CGColor
+        
+        let date = memeCollection[indexPath.row].date
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
+        let convertedDate = formatter.stringFromDate(date)
+        
+        cell.memeLabel.text = "Shared \(convertedDate)"
     
         return cell
         
