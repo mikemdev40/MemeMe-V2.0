@@ -141,7 +141,6 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     //method that saves the memed imaged to a singleton instance of type [MemeObject], which will be shared across view controllers
     func saveMeme(memeToSave: MemeObject) {
         Memes.sharedInstance.savedMemes.append(memeToSave)
-        print(Memes.sharedInstance.savedMemes.count)
     }
     
     //method that "resets" the image and the text when the cancel button is tapped in the top right corner

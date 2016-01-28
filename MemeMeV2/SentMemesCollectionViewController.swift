@@ -63,13 +63,8 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         cell.memeImage.contentMode = .ScaleAspectFill
         cell.memeImage.image = memeCollection[indexPath.row].memedImage
         
-        let date = memeCollection[indexPath.row].date
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-        let convertedDate = formatter.stringFromDate(date)
-        
-        cell.memeLabel.text = "Shared \(convertedDate)"
-    
+        cell.memeLabel.text = "Shared " + getDateFromMeme(memeCollection[indexPath.row])
+
         return cell
         
     }

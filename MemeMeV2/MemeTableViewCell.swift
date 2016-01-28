@@ -13,5 +13,6 @@ class MemeTableViewCell: UITableViewCell {
     @IBOutlet weak var tableCellImageView: UIImageView!
     @IBOutlet weak var tableCellTopLabel: UILabel!
     @IBOutlet weak var tableCellBottomLabel: UILabel!
+    @IBOutlet weak var tableCellDateLabel: UILabel!
     
 }
