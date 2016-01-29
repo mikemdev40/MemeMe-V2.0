@@ -72,11 +72,10 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         presentViewController(picker, animated: true, completion: nil)
     }
     
-    //method that creates a meme image; UPDATED to make the screenshot the size of imageview (rather than view), which prevents either bar from getting captured
+    //method that creates a meme image
     func createMeme() -> UIImage {
-        
-        UIGraphicsBeginImageContext(imageView.bounds.size)
-        view.drawViewHierarchyInRect(CGRect(x: 0, y: 0, width: imageView.bounds.width, height: imageView.bounds.height), afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(view.bounds.size)
+        view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -279,7 +278,6 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         optionsButton = UIBarButtonItem(title: "Options", style: .Plain, target: self, action: "showOptions")
 
         toolbarItems = [barSpace, albumButton, barSpace, cameraButton, barSpace, optionsButton, barSpace]
-        navigationController?.toolbarHidden = false
         
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
         albumButton.enabled = UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary)
