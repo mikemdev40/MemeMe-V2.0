@@ -77,6 +77,18 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
     }
     
     //VIEW CONTROLLER METHODS
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "CollectionToMemeViewer" {
+            if let memeViewController = segue.destinationViewController as? MemeDetailViewController {
+                if let cell = sender as? MemeCollectionViewCell {
+                    if let indexPath = collectionView.indexPathForCell(cell) {
+                        memeViewController.memeToDisplay = Memes.sharedInstance.savedMemes[indexPath.row]
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         layoutCells()
     }

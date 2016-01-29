@@ -50,6 +50,18 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "TableToMemeViewer" {
+            if let memeViewController = segue.destinationViewController as? MemeDetailViewController {
+                if let cell = sender as? MemeTableViewCell {
+                    if let indexPath = tableView.indexPathForCell(cell) {
+                        memeViewController.memeToDisplay = Memes.sharedInstance.savedMemes[indexPath.row]
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()

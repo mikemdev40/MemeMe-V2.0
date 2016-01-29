@@ -235,6 +235,7 @@
                                             <outlet property="tableCellDateLabel" destination="9pc-bR-fcl" id="Fmz-mF-fnt"/>
                                             <outlet property="tableCellImageView" destination="azs-gN-Q3f" id="XxA-wg-U2m"/>
                                             <outlet property="tableCellTopLabel" destination="AZr-nX-0BK" id="8Mo-fe-wcM"/>
+                                            <segue destination="gid-kK-6mo" kind="show" identifier="TableToMemeViewer" id="xnk-pu-9nh"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -269,12 +270,26 @@
                     <view key="view" contentMode="scaleToFill" id="mY8-3h-Dqg">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GSM-rn-4Wh">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="GSM-rn-4Wh" firstAttribute="leading" secondItem="mY8-3h-Dqg" secondAttribute="leading" id="5bF-bR-9je"/>
+                            <constraint firstAttribute="trailing" secondItem="GSM-rn-4Wh" secondAttribute="trailing" id="cqD-ce-4Tz"/>
+                            <constraint firstItem="GSM-rn-4Wh" firstAttribute="top" secondItem="kEM-N5-tdf" secondAttribute="bottom" id="goX-6L-50T"/>
+                            <constraint firstAttribute="bottom" secondItem="GSM-rn-4Wh" secondAttribute="bottom" id="jdg-ad-gQd"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="GSM-rn-4Wh" id="zJN-RD-yNc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lZz-ay-8kD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2845" y="1306"/>
+            <point key="canvasLocation" x="2811" y="1488"/>
         </scene>
         <!--Sent Memes Collection View Controller-->
         <scene sceneID="avZ-iU-Rl6">
@@ -321,7 +336,7 @@
                                                         <constraint firstAttribute="height" constant="20" id="EhB-cc-ieg"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -332,7 +347,7 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <color key="backgroundColor" red="0.98039215690000003" green="0.81568627449999997" blue="0.82352941180000006" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="drm-Fi-L1g" firstAttribute="leading" secondItem="4hZ-Na-yaS" secondAttribute="leadingMargin" constant="-8" id="5qn-py-vMo"/>
                                             <constraint firstItem="drm-Fi-L1g" firstAttribute="top" secondItem="4hZ-Na-yaS" secondAttribute="topMargin" constant="-8" id="B0d-WM-CAf"/>
@@ -345,6 +360,7 @@
                                         <connections>
                                             <outlet property="memeImage" destination="drm-Fi-L1g" id="Dux-RJ-Sf6"/>
                                             <outlet property="memeLabel" destination="6yi-YL-ran" id="z1i-Rf-87g"/>
+                                            <segue destination="gid-kK-6mo" kind="show" identifier="CollectionToMemeViewer" id="GGp-WU-0Jb"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -558,6 +574,7 @@
         <image name="background.jpg" width="1600" height="1200"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="xnk-pu-9nh"/>
         <segue reference="g7H-CB-piu"/>
     </inferredMetricsTieBreakers>
 </document>
