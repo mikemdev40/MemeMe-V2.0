@@ -72,13 +72,11 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         presentViewController(picker, animated: true, completion: nil)
     }
     
-    //method that creates a meme image
+    //method that creates a meme image; UPDATED to make the screenshot the size of imageview (rather than view), which prevents either bar from getting captured
     func createMeme() -> UIImage {
         
-// TODO: FIX SNAPSHOT OF TOP OF SCREEN
-        
-        UIGraphicsBeginImageContext(view.frame.size)
-        view.drawViewHierarchyInRect(imageView.frame, afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+        view.drawViewHierarchyInRect(CGRect(x: 0, y: 0, width: imageView.bounds.width, height: imageView.bounds.height), afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

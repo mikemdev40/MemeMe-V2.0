@@ -13,7 +13,7 @@ func getDateFromMeme(meme: MemeObject) -> String {
     let date = meme.date
     let formatter = NSDateFormatter()
     formatter.dateStyle = NSDateFormatterStyle.ShortStyle
-    let convertedDate = formatter.stringFromDate(date)
+    let dateAsString = formatter.stringFromDate(date)
     
-    return convertedDate
+    return dateAsString
 }

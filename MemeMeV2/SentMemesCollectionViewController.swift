@@ -52,17 +52,15 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
     
     //DELEGATE METHODS
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("memeCollectionCell", forIndexPath: indexPath) as! MemeCollectionViewCell
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor.blackColor().CGColor
-        
-        let memeCollection = Memes.sharedInstance.savedMemes
-        
+        cell.layer.cornerRadius = 5
         cell.memeImage.clipsToBounds = true
         cell.memeImage.contentMode = .ScaleAspectFill
-        cell.memeImage.image = memeCollection[indexPath.row].memedImage
         
+        let memeCollection = Memes.sharedInstance.savedMemes
+        cell.memeImage.image = memeCollection[indexPath.row].memedImage
         cell.memeLabel.text = "Shared " + getDateFromMeme(memeCollection[indexPath.row])
 
         return cell

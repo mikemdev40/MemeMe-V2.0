@@ -176,22 +176,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="azs-gN-Q3f">
-                                                    <rect key="frame" x="8" y="0.0" width="100" height="100"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="azs-gN-Q3f" secondAttribute="height" multiplier="1:1" id="JJG-af-JBs"/>
-                                                        <constraint firstAttribute="width" constant="100" id="KJt-Tf-cWm"/>
-                                                        <constraint firstAttribute="height" constant="100" id="hfA-wJ-dcb"/>
-                                                    </constraints>
-                                                    <variation key="default">
-                                                        <mask key="constraints">
-                                                            <exclude reference="KJt-Tf-cWm"/>
-                                                            <exclude reference="hfA-wJ-dcb"/>
-                                                        </mask>
-                                                    </variation>
-                                                </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="3Cf-j0-FI4">
-                                                    <rect key="frame" x="116" y="11" width="49" height="79"/>
+                                                    <rect key="frame" x="108" y="11" width="49" height="79"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AZr-nX-0BK">
                                                             <rect key="frame" x="0.0" y="0.0" width="49" height="24"/>
@@ -213,11 +199,33 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="azs-gN-Q3f">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="AiP-2c-N4F"/>
+                                                        <constraint firstAttribute="height" constant="100" id="CwD-i5-Tnn"/>
+                                                        <constraint firstAttribute="width" secondItem="azs-gN-Q3f" secondAttribute="height" multiplier="1:1" id="JJG-af-JBs"/>
+                                                        <constraint firstAttribute="width" constant="100" id="KJt-Tf-cWm"/>
+                                                        <constraint firstAttribute="width" secondItem="azs-gN-Q3f" secondAttribute="height" multiplier="1:1" id="hVJ-cC-Xb6"/>
+                                                        <constraint firstAttribute="height" constant="100" id="hfA-wJ-dcb"/>
+                                                        <constraint firstAttribute="width" secondItem="azs-gN-Q3f" secondAttribute="height" multiplier="1:1" id="iPN-FU-Tvu"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="AiP-2c-N4F"/>
+                                                            <exclude reference="CwD-i5-Tnn"/>
+                                                            <exclude reference="JJG-af-JBs"/>
+                                                            <exclude reference="KJt-Tf-cWm"/>
+                                                            <exclude reference="hVJ-cC-Xb6"/>
+                                                            <exclude reference="hfA-wJ-dcb"/>
+                                                        </mask>
+                                                    </variation>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="azs-gN-Q3f" firstAttribute="top" secondItem="VBh-Kp-tuD" secondAttribute="topMargin" constant="-8" id="0xl-ib-BSK"/>
                                                 <constraint firstItem="3Cf-j0-FI4" firstAttribute="leading" secondItem="azs-gN-Q3f" secondAttribute="trailing" constant="8" symbolic="YES" id="3vo-i0-3Hg"/>
-                                                <constraint firstAttribute="leadingMargin" secondItem="azs-gN-Q3f" secondAttribute="leading" id="JwF-Rf-UMJ"/>
+                                                <constraint firstAttribute="leadingMargin" secondItem="azs-gN-Q3f" secondAttribute="leading" constant="8" id="JwF-Rf-UMJ"/>
                                                 <constraint firstItem="3Cf-j0-FI4" firstAttribute="centerY" secondItem="azs-gN-Q3f" secondAttribute="centerY" id="NnY-OJ-Nk1"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="azs-gN-Q3f" secondAttribute="bottom" constant="-8" id="osN-zU-sfn"/>
                                             </constraints>

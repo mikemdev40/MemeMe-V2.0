@@ -24,6 +24,12 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier("memeCell") as! MemeTableViewCell
+        // accidentally had cell.clipstobounds and cell.contentmode set, rather than the imageview
+        cell.tableCellImageView.layer.borderWidth = 1
+        cell.tableCellImageView.layer.borderColor = UIColor.blackColor().CGColor
+        cell.tableCellImageView.layer.cornerRadius = 5
+        cell.tableCellImageView.clipsToBounds = true
+        cell.tableCellImageView.contentMode = .ScaleAspectFill
         
         let memeCollection = Memes.sharedInstance.savedMemes
         
