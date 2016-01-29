@@ -103,7 +103,9 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addMeme")
         
         collectionView.backgroundColor = UIColor.whiteColor()
-        title = "Sent Memes"
+        
+        title = ""  //sets both navigation bar title AND tab bar title
+        navigationItem.title = "Sent Memes"
         
     }
     

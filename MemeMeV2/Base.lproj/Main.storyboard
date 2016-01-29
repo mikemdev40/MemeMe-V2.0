@@ -116,11 +116,11 @@
             </objects>
             <point key="canvasLocation" x="3567" y="598"/>
         </scene>
-        <!--Table-->
+        <!--Navigation Controller-->
         <scene sceneID="SiC-5W-nLg">
             <objects>
                 <navigationController id="SgW-un-1FS" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Table" id="aXX-ok-07i"/>
+                    <tabBarItem key="tabBarItem" title="" image="table" id="aXX-ok-07i"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="xxC-0g-mQF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -534,11 +534,11 @@
             </objects>
             <point key="canvasLocation" x="521" y="890"/>
         </scene>
-        <!--Collection-->
+        <!--Navigation Controller-->
         <scene sceneID="Q8I-Qq-Efc">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LOx-av-xUY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Collection" id="Bkg-y0-heQ"/>
+                    <tabBarItem key="tabBarItem" title="" image="collection" id="Bkg-y0-heQ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vx1-Jl-qg5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -556,6 +556,8 @@
     </scenes>
     <resources>
         <image name="background.jpg" width="1600" height="1200"/>
+        <image name="collection" width="30" height="30"/>
+        <image name="table" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="xnk-pu-9nh"/>

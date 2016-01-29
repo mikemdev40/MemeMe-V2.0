@@ -72,7 +72,8 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addMeme")
         
-        title = "Sent Memes"
+        title = ""  //sets both navigation bar title AND tab bar title
+        navigationItem.title = "Sent Memes"
     }
 
 }
