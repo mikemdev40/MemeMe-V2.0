@@ -85,7 +85,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     //method that shares the meme using a UIActivityViewContoller, then saves the image to an instance of the MemeObject struct using the completion handler for the activity controller; the save occurs after any activity is selected, however, a save does NOT occur if the user clicks "cancel" (i.e. activity == nil) or there is an error; an appropriate alert is shown to the user after the save occurs (or doesn't)
     func shareAndSaveMeme() {
         guard let topText = topTextField.text, let bottomText = bottomTextField.text else {
-            callAlert("Missing Text", message: "Make sure you have text typed!")
+            callAlert("Missing Text", message: "Make sure you have text typed!", handler: nil)
             return
         }
         
@@ -94,14 +94,16 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
             let shareVC = UIActivityViewController(activityItems: [memedImage], applicationActivities: [])
             shareVC.completionWithItemsHandler = {[unowned self] (activity, choseAnAction, returnedItems, error) -> Void in
                 if error != nil {
-                    self.callAlert("Error", message: error!.localizedDescription)
+                    self.callAlert("Error", message: error!.localizedDescription, handler: nil)
                 } else if activity != nil {
-//                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: imageToMeme, memedImage: memedImage)
                     self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: memedImage, memedImage: memedImage, date: NSDate())
                     self.saveMeme(self.meme)
-                    self.callAlert("SAVED", message: "Memed image was saved.")
+                    self.callAlert("SAVED", message: "Memed image was saved.") {
+                        [unowned self] (action) -> Void in
+                            self.dismissViewControllerAnimated(true, completion: nil)
+                    }
                 } else {
-                    self.callAlert("Not Saved", message: "Memed image did not save because you cancelled.")
+                    self.callAlert("Not Saved", message: "Memed image did not save because you cancelled.", handler: nil)
                 }
             }
         
@@ -140,15 +142,9 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         Memes.sharedInstance.savedMemes.append(memeToSave)
     }
     
-    //method that "resets" the image and the text when the cancel button is tapped in the top right corner
+    //method that causes the meme editor view to disappear (this was changed from Meme Me V1, in which the "cancel" button just reset everything rather than dismissing a view controller)
     func cancel() {
         dismissViewControllerAnimated(true, completion: nil)
-//        imageView.image = nil
-//        topTextField.text = Constants.placeholderText
-//        bottomTextField.text = Constants.placeholderText
-//        memeFont = Constants.defaultFont
-//        imageView.contentMode = Constants.defaultScale
-//        blackBackground.backgroundColor = UIColor.clearColor()
     }
     
     //method that sets up the top and bottom meme text fields (note that the memeTextAttributes is a computed property which uses the value of "memeFont" as the font, which can be set using the options button)
@@ -174,9 +170,9 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     //method for creating an alert with a specific title and message
-    func callAlert(title: String, message: String) {
+    func callAlert(title: String, message: String, handler: ((UIAlertAction) -> Void)?) {
         let ac = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: handler))
         presentViewController(ac, animated: true, completion: nil)
     }
     
