@@ -33,6 +33,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     var cameraButton: UIBarButtonItem!
     var albumButton: UIBarButtonItem!
     var optionsButton: UIBarButtonItem!
+    var shareAndSaveButton: UIBarButtonItem!
     var activeTextField: UITextField?
     var meme: MemeObject!
     let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -106,10 +107,8 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
                     self.callAlert("Not Saved", message: "Memed image did not save because you cancelled.", handler: nil)
                 }
             }
-        
-// TODO: fix popover problem on iPad for activity share (has something to do with having to present an activity view in a popover on iPad)
             shareVC.modalPresentationStyle = .Popover
-            shareVC.popoverPresentationController?.barButtonItem = navigationController?.navigationItem.leftBarButtonItem
+            shareVC.popoverPresentationController?.barButtonItem = shareAndSaveButton
             presentViewController(shareVC, animated: true, completion: nil)
 //        } else {
 //            callAlert("No Image", message: "You must have an image selected in order to share!")
@@ -266,8 +265,9 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         
         title = "Meme Editor"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancel")
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareAndSaveMeme")
-    
+        shareAndSaveButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareAndSaveMeme")
+        navigationItem.leftBarButtonItem = shareAndSaveButton
+            
         barSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
         cameraButton = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: "takeImageWithCamera")
         albumButton = UIBarButtonItem(title: "Album", style: .Plain, target: self, action: "pickImageFromAlbum")
