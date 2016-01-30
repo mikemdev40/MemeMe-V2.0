@@ -14,6 +14,20 @@ class MemeDetailViewController: UIViewController {
     
     var memeToDisplay: MemeObject?
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showMemeEditorFromViewer" {
+            var destinationViewController = segue.destinationViewController
+            if let navigationViewController = destinationViewController as? UINavigationController {
+                destinationViewController = navigationViewController.viewControllers[0]
+                if let memeViewController = destinationViewController as? MemeEditorController {
+                    if let memeToSend = memeToDisplay {
+                        memeViewController.memeToEdit = memeToSend
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewWillAppear(animated: Bool) {
         tabBarController?.tabBar.hidden = true
         imageView.contentMode = .ScaleAspectFit

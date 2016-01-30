@@ -36,15 +36,21 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     var shareAndSaveButton: UIBarButtonItem!
     var activeTextField: UITextField?
     var meme: MemeObject!
+    var memeToEdit: MemeObject?
     let notificationCenter = NSNotificationCenter.defaultCenter()
 
-    //variable for the font of the textfields, which, when set to a different values, causes the textfields to update through the didset property observer's call of setText (which set the text field attributes)
+    //variable for the font of the textfields, which, when set to a different value, causes the textfields to update through the didset property observer's call of setText (which set the text field attributes)
     var memeFont = Constants.defaultFont {
-        didSet { setText() }
+        didSet {
+            setText(Constants.placeholderText, bottomText: Constants.placeholderText)
+        }
     }
+    
     //property that is required by the UpdateFontDelegate protocol; when newFontStyle is set in the popover options screen, the property observer on this variable sets memeFont to the new font
     var newFontStyle = Constants.defaultFont {
-        didSet { memeFont = newFontStyle }
+        didSet {
+            memeFont = newFontStyle
+        }
     }
     
     //MARK: COMPUTED PROPERTIES
@@ -90,14 +96,14 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
             return
         }
         
-//        if let imageToMeme = imageView.image {
+        if let imageToMeme = imageView.image {
             let memedImage = createMeme()
             let shareVC = UIActivityViewController(activityItems: [memedImage], applicationActivities: [])
             shareVC.completionWithItemsHandler = {[unowned self] (activity, choseAnAction, returnedItems, error) -> Void in
                 if error != nil {
                     self.callAlert("Error", message: error!.localizedDescription, handler: nil)
                 } else if activity != nil {
-                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: memedImage, memedImage: memedImage, date: NSDate())
+                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: imageToMeme, memedImage: memedImage, date: NSDate())
                     self.saveMeme(self.meme)
                     self.callAlert("SAVED", message: "Memed image was saved.") {
                         [unowned self] (action) -> Void in
@@ -110,9 +116,9 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
             shareVC.modalPresentationStyle = .Popover
             shareVC.popoverPresentationController?.barButtonItem = shareAndSaveButton
             presentViewController(shareVC, animated: true, completion: nil)
-//        } else {
-//            callAlert("No Image", message: "You must have an image selected in order to share!")
-//        }
+        } else {
+            callAlert("No Image", message: "You must have an image selected in order to share!", handler: nil)
+        }
     }
     
     //method that presents the options view controller (as a popoever, even on iPhone) for controlling image scale and font selection; delegation is used for the purpose of enabling the user to update the font from the popover and have the font update in real time (without needing to dismiss the popover); an "UpdateFontDelegate" protocol is defined in the editoptionsviewcontroller class, and this class adopts the protocol by declaring a newFontStyle variable (which, when set in the popover by choosing a new font, updates the value of memeFont which then calls the setText() method to update the screen).
@@ -147,7 +153,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     //method that sets up the top and bottom meme text fields (note that the memeTextAttributes is a computed property which uses the value of "memeFont" as the font, which can be set using the options button)
-    func setText() {
+    func setText(topText: String, bottomText: String) {
         topTextField.borderStyle = .None
         topTextField.defaultTextAttributes = memeTextAttributes
         topTextField.textAlignment = .Center
@@ -161,10 +167,10 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         bottomTextField.minimumFontSize = 20
         
         if topTextField.text == "" {
-            topTextField.text = Constants.placeholderText
+            topTextField.text = topText
         }
         if bottomTextField.text == "" {
-            bottomTextField.text = Constants.placeholderText
+            bottomTextField.text = bottomText
         }
     }
     
@@ -263,7 +269,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Meme Editor"
+        title = "Editor"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancel")
         shareAndSaveButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareAndSaveMeme")
         navigationItem.leftBarButtonItem = shareAndSaveButton
@@ -288,14 +294,20 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         bottomTextField.delegate = self
         topTextField.tag = 1
         bottomTextField.tag = 2
-        
-        setText()
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         subscribeToKeyboardNotifications()
+        
+        if let memeToEdit = memeToEdit {
+            imageView.image = memeToEdit.originalImage
+            blackBackground.backgroundColor = UIColor.blackColor()
+            setText(memeToEdit.topText, bottomText: memeToEdit.bottomText)
+        } else {
+            setText(Constants.placeholderText, bottomText: Constants.placeholderText)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
