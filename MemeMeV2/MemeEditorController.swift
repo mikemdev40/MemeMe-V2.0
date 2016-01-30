@@ -55,7 +55,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
             NSFontAttributeName: memeFont]
     }
     
-    //MARK: METHODS
+    //MARK: CUSTOM METHODS
     func pickImageFromAlbum() {
         getImage(.PhotoLibrary)
     }

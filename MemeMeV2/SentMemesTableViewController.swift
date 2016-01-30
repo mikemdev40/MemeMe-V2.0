@@ -10,6 +10,7 @@ import UIKit
 
 class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    //MARK: OUTLETS
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.delegate = self
@@ -17,10 +18,12 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
+    //MARK: CUSTOM METHODS
     func addMeme() {
         performSegueWithIdentifier("showMemeEditorFromTable", sender: nil)
     }
     
+    //MARK: DELEGTE METHODS
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier("memeCell") as! MemeTableViewCell
@@ -50,6 +53,7 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         
     }
     
+    //MARK: VIEW CONTROLLER METHODS
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "TableToMemeViewer" {
             if let memeViewController = segue.destinationViewController as? MemeDetailViewController {
@@ -62,6 +66,7 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
+    //MARK: VIEW CONTROLLER LIFECYCLE
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()

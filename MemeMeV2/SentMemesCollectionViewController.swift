@@ -9,12 +9,8 @@
 import UIKit
 
 class SentMemesCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-
-    //MARK: CONSTANTS
-    struct Constants {
-        static let CellVerticalSpacing: CGFloat = 2
-    }
-    
+   
+    //MARK; OUTLETS
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.delegate = self
@@ -24,7 +20,12 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    //CUSTOM METHODS
+    //MARK: CONSTANTS
+    struct Constants {
+        static let CellVerticalSpacing: CGFloat = 2
+    }
+    
+    //MARK: CUSTOM METHODS
     ///method to add a meme
     func addMeme() {
         performSegueWithIdentifier("showMemeEditorFromCollection", sender: nil)
@@ -50,7 +51,7 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         flowLayout.minimumLineSpacing = actualCellVerticalSpacing
     }
     
-    //DELEGATE METHODS
+    //MARK: DELEGATE METHODS
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("memeCollectionCell", forIndexPath: indexPath) as! MemeCollectionViewCell
         cell.layer.borderWidth = 1
@@ -64,19 +65,13 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         cell.memeLabel.text = "Shared " + getDateFromMeme(memeCollection[indexPath.row])
 
         return cell
-        
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return Memes.sharedInstance.savedMemes.count
-
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-    }
-    
-    //VIEW CONTROLLER METHODS
+    //MARK: VIEW CONTROLLER METHODS
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "CollectionToMemeViewer" {
             if let memeViewController = segue.destinationViewController as? MemeDetailViewController {
@@ -93,6 +88,7 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         layoutCells()
     }
     
+    //MARK: VIEW CONTROLLER LIFECYCLE
     override func viewWillAppear(animated: Bool) {
         collectionView.reloadData()
     }
