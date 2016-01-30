@@ -43,14 +43,17 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         
         return cell
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         return Memes.sharedInstance.savedMemes.count
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            Memes.sharedInstance.savedMemes.removeAtIndex(indexPath.row)
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
     }
     
     //MARK: VIEW CONTROLLER METHODS
@@ -66,6 +69,12 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        tableView.setEditing(editing, animated: true)
+    }
+    
     //MARK: VIEW CONTROLLER LIFECYCLE
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -76,9 +85,12 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addMeme")
+        navigationItem.leftBarButtonItem = editButtonItem()
         
         title = ""  //sets both navigation bar title AND tab bar title
         navigationItem.title = "Sent Memes"
+        
+        
     }
 
 }

@@ -239,7 +239,7 @@
             </objects>
             <point key="canvasLocation" x="2053" y="312"/>
         </scene>
-        <!--Meme Detail View Controller-->
+        <!--Meme Viewer-->
         <scene sceneID="klr-pf-GqN">
             <objects>
                 <viewController id="gid-kK-6mo" customClass="MemeDetailViewController" customModule="MemeMeV2" customModuleProvider="target" sceneMemberID="viewController">
@@ -263,6 +263,11 @@
                             <constraint firstAttribute="trailing" secondItem="GSM-rn-4Wh" secondAttribute="trailing" id="neF-KV-tWi"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Meme Viewer" id="Vej-EA-WLh">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="vh7-MD-bJw"/>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="GSM-rn-4Wh" id="zJN-RD-yNc"/>
                     </connections>
