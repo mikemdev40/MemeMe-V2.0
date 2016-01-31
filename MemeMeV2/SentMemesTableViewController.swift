@@ -50,7 +50,8 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         return Memes.sharedInstance.savedMemes.count
     }
     
-    //this delegate method allows the user to delete a meme (either by swiping left on the table cell OR by clicking the "Edit" button and using the the red delete circles), thus removing the two associated image files from the file disk (using the removeFileAtPath method), removes the meme from the shared [MemeObject] array, removes the row from the table view, and updates the saved memes array on the file disk (by saving the memes file on the disk with the updated Memes.sharedInstance.savedMemes that has the meme removed)
+    //this delegate method allows the user to delete a meme (either by swiping left on the table cell OR by clicking the "Edit" button and using the the red delete circles), thus removing the two associated image files from the file disk (using the removeFileAtPath method), removes the meme from the shared [MemeObject] array, removes the row from the table view, and updates the saved memes array on the file disk (by saving the memes file on the disk with the updated Memes.sharedInstance.savedMemes that has the meme removed); my primary reference for learning how to delete table rows was https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/TableView_iPhone/ManageInsertDeleteRow/ManageInsertDeleteRow.html#//apple_ref/doc/uid/TP40007451-CH10-SW19
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             

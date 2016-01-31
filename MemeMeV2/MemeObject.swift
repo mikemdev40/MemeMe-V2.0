@@ -58,6 +58,7 @@ class MemeObject: NSObject, NSCoding {
     
     //MARK: REQUIRED PROTOCOL METHODS
     //the methods below are required by the NSCoding protocol and are used for setting up the MemeObject class for enabling a [MemeObject] array to persist in between app launches
+    
     required init?(coder aDecoder: NSCoder) {
         topText = aDecoder.decodeObjectForKey("topText") as! String
         bottomText = aDecoder.decodeObjectForKey("bottomText") as! String
@@ -73,4 +74,5 @@ class MemeObject: NSObject, NSCoding {
         aCoder.encodeObject(memedImagePath, forKey: "memedImagePath")
         aCoder.encodeObject(date, forKey: "date")
     }
+    //my primary references for learning about using NSKeyedArchiving to persist custom classes were http://mhorga.org/2015/08/25/ios-persistence-with-nscoder-and-nskeyedarchiver.html and https://www.hackingwithswift.com/read/12/3/fixing-project-10-nscoding
 }

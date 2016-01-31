@@ -85,8 +85,8 @@
 		7A776C371C5707DD00C9AC41 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7A776C081C5471D600C9AC41 /* Memes.swift */,
 				7AAFBDA31C4AFEF300AA906B /* MemeObject.swift */,
+				7A776C081C5471D600C9AC41 /* Memes.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";

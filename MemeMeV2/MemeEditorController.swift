@@ -140,7 +140,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    ///this method writes the both the original and memed images to disk as JPEGs, saves the memed imaged (and original image and text) to an instance of the archivable type MemeObject, then update the singleton [MemeObject] instance (which is shared across view controllers) by appending the new meme object and saves the shared [MemeObject] to disk using NSKeyedArchiver.
+    ///this method writes the both the original and memed images to disk as JPEGs, saves the memed imaged (and original image and text) to an instance of the archivable type MemeObject, then update the singleton [MemeObject] instance (which is shared across view controllers) by appending the new meme object and saves the shared [MemeObject] to disk using NSKeyedArchiver
     func saveMeme(topText: String, bottomText: String, originalImage: UIImage, memedImage: UIImage, date: NSDate) {
         let manager = NSFileManager.defaultManager()
         if let documentsPath = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
@@ -166,6 +166,8 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
             NSKeyedArchiver.archiveRootObject(Memes.sharedInstance.savedMemes, toFile: getMemeFilePath())
         }
     }
+    //my primary references for storing files to the local disk was lecture 16 of the Stanford iTunes Course (https://itunes.apple.com/us/course/developing-ios-8-apps-swift/id961180099) and https://www.hackingwithswift.com/read/10/4/importing-photos-with-uiimagepickercontroller
+    
     
     ///this method causes the meme editor view to disappear (this was changed from MemeMe V1.0, in which the "cancel" button just reset everything rather than dismissing a view controller)
     func cancel() {

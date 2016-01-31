@@ -29,6 +29,8 @@ class MemeDetailViewController: UIViewController {
             }
         }
     }
+    //my primary reference for the proper way to access view contollers within navigation controllers was lecture 7 of the Stanford iTunes Course (https://itunes.apple.com/us/course/developing-ios-8-apps-swift/id961180099)
+    
     
     //hides the tab bar when the view is about to apper and sets the imageView.image to the memed image property of the meme object (as stored on the file disk and retrieved through the getImage method)
     override func viewWillAppear(animated: Bool) {
