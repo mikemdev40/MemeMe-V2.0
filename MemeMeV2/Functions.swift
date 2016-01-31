@@ -8,6 +8,8 @@
 
 import Foundation
 
+//MARK: GLOBAL FUNCTIONS
+//the function below 
 func getDateFromMeme(meme: MemeObject) -> String {
     let date = meme.date
     let formatter = NSDateFormatter()

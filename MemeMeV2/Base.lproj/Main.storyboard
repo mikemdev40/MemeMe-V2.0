@@ -319,8 +319,8 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yi-YL-ran">
-                                                    <rect key="frame" x="40" y="128" width="37.5" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6yi-YL-ran">
+                                                    <rect key="frame" x="0.0" y="128" width="116" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="EhB-cc-ieg"/>
                                                     </constraints>
@@ -339,13 +339,20 @@
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="drm-Fi-L1g" firstAttribute="leading" secondItem="4hZ-Na-yaS" secondAttribute="leadingMargin" constant="-8" id="5qn-py-vMo"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="6yi-YL-ran" secondAttribute="trailing" constant="-8" id="AXN-Qa-bfY"/>
                                             <constraint firstItem="drm-Fi-L1g" firstAttribute="top" secondItem="4hZ-Na-yaS" secondAttribute="topMargin" constant="-8" id="B0d-WM-CAf"/>
                                             <constraint firstItem="6yi-YL-ran" firstAttribute="top" secondItem="drm-Fi-L1g" secondAttribute="bottom" id="CrO-wr-iRD"/>
                                             <constraint firstItem="6yi-YL-ran" firstAttribute="centerX" secondItem="4hZ-Na-yaS" secondAttribute="centerX" id="DaU-3f-DZO"/>
+                                            <constraint firstItem="6yi-YL-ran" firstAttribute="leading" secondItem="4hZ-Na-yaS" secondAttribute="leadingMargin" constant="-8" id="LDW-wU-kQH"/>
                                             <constraint firstItem="drm-Fi-L1g" firstAttribute="centerX" secondItem="4hZ-Na-yaS" secondAttribute="centerX" id="NsN-SN-sPY"/>
                                             <constraint firstAttribute="trailingMargin" secondItem="drm-Fi-L1g" secondAttribute="trailing" constant="-8" id="Oxj-jY-jIN"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="6yi-YL-ran" secondAttribute="bottom" constant="-8" id="yqj-Ik-xxV"/>
                                         </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="DaU-3f-DZO"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
                                             <outlet property="memeImage" destination="drm-Fi-L1g" id="Dux-RJ-Sf6"/>
                                             <outlet property="memeLabel" destination="6yi-YL-ran" id="z1i-Rf-87g"/>
@@ -569,7 +576,7 @@
         <image name="table" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cgi-qP-jyi"/>
-        <segue reference="xnk-pu-9nh"/>
+        <segue reference="oN1-gs-NWU"/>
+        <segue reference="GGp-WU-0Jb"/>
     </inferredMetricsTieBreakers>
 </document>
