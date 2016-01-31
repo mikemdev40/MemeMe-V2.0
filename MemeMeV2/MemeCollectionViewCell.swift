@@ -8,8 +8,8 @@
 
 import UIKit
 
+//subclass of UICollectionViewCell which allows for a customized appearance of the collection view cell
 class MemeCollectionViewCell: UICollectionViewCell {
-    
     @IBOutlet weak var memeImage: UIImageView!
     @IBOutlet weak var memeLabel: UILabel!
 }

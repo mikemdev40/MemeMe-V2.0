@@ -8,7 +8,7 @@
 
 import UIKit
 
-//delegate protocol defined, which the MemeEditorController adopts; this delegatation is used to make the MemeEditorController aware of changes to the font on the popover and make changes to the main screen in real time (while the popover is still active); when the newFontStyle is set on the delegate, the main screen font selection is set to the new font selection (through a didset property observer), which promptys an update to the text field attributes
+//a delegate protocol is defined, which the MemeEditorController adopts; this delegatation patter is used to make the MemeEditorController aware of changes to the font on the popover and make changes to the main screen in real time (while the popover is still active); when the newFontStyle is set on the delegate, the main screen font selection is set to the new font selection (through a didset property observer), which promptys an update to the text field attributes
 protocol UpdateFontDelegate {
     var newFontStyle: UIFont { get set}
 }
@@ -31,7 +31,7 @@ class EditOptionsViewController: UIViewController {
     }
     
     //MARK: METHODS
-    //method that is connected to the two image scale selector buttons; one button cycles forward through five different image scale options, and the other button cycles backwards; the tags (1 and 2) for the two buttons are set in viewDidLoad
+    ///this target action is connected to the two image scale selector buttons; one button cycles forward through five different image scale options, and the other button cycles backwards; the tags (1 and 2) for the two buttons are set in viewDidLoad
     @IBAction func changeImageScale(sender: UIButton) {
         switch sender.tag {
         case 1:
@@ -69,7 +69,7 @@ class EditOptionsViewController: UIViewController {
         }
     }
     
-    //method that is connected to the two font selector UIButtons; one button cycles forward through five different font options, and the other button cycles backwards; the tags (1 and 2) for the two buttons are set in viewDidLoad; the new font is set to the delegate's (MemeEditorViewController's) newFontStyle property; as for the font size, this is tag 3, which corresponds to the UIStepper; since UIStepper and UIButton both call changeFontStyle, it was necessary to change the argument from "UIButton" to "UIControl" so as to allow the stepper to pass itself into the changeFontStyle method
+    ///this target action is connected to the two font selector UIButtons; one button cycles forward through five different font options, and the other button cycles backwards; the tags (1 and 2) for the two buttons are set in viewDidLoad; the new font is set to the delegate's (MemeEditorViewController's) newFontStyle property; as for the font size, this is tag 3, which corresponds to the UIStepper (for case 3, the font is updated with a new size only and the font style stays the same); since UIStepper and UIButton both call changeFontStyle, it was necessary to change the argument from "UIButton" to "UIControl" so as to allow the stepper to pass itself into the changeFontStyle method
     @IBAction func changeFontStyle(sender: UIControl) {
         switch sender.tag {
         case 1:
@@ -115,6 +115,7 @@ class EditOptionsViewController: UIViewController {
         }
     }
     
+    ///this target action is connected to the stepper and simply calls the changeFontStyle method above, passing itself (with tag = 3) as the argument, which allows for the font size to change without the font style to change
     @IBAction func changeFontSize(sender: UIStepper) {
         changeFontStyle(sender)
     }

@@ -10,7 +10,6 @@ import UIKit
 import MobileCoreServices
 
 //note the adoption of the UpdateFontDelegate protocol below, which is defined in the EditOptionsViewController class and adopted by this MemeEditorController class; delegation is used in this application for the purpose of enabling the user to change the font of the meme from a popover view controller, and have the font change immediately reflected on the main view controller screen
-
 class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, UpdateFontDelegate {
     
     //MARK: OUTLETS
@@ -79,7 +78,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         presentViewController(picker, animated: true, completion: nil)
     }
     
-    //method that creates a meme image
+    ///this method creates a meme image
     func createMeme() -> UIImage {
         UIGraphicsBeginImageContext(view.bounds.size)
         view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates: true)
@@ -89,7 +88,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         return memedImage
     }
     
-    //method that shares the meme using a UIActivityViewContoller, then saves the image to an instance of the MemeObject struct using the completion handler for the activity controller; the save occurs after any activity is selected, however, a save does NOT occur if the user clicks "cancel" (i.e. activity == nil) or there is an error; an appropriate alert is shown to the user after the save occurs (or doesn't)
+    ///this method shares the meme using a UIActivityViewContoller then saves the image to an instance of the MemeObject class using the completion handler for the activity controller; the save occurs after any activity is selected, however, a save does NOT occur if the user clicks "cancel" (i.e. activity == nil) or there is an error; an appropriate alert is shown to the user after the save occurs (or doesn't); if an activity is selected, the meme gets saved, and a completion handler is passed to the callAlert method which dismisses the meme editor that is being modally presented
     func shareAndSaveMeme() {
         guard let topText = topTextField.text, let bottomText = bottomTextField.text else {
             callAlert("Missing Text", message: "Make sure you have text typed!", handler: nil)
@@ -120,7 +119,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    //method that presents the options view controller (as a popoever, even on iPhone) for controlling image scale and font selection; delegation is used for the purpose of enabling the user to update the font from the popover and have the font update in real time (without needing to dismiss the popover); an "UpdateFontDelegate" protocol is defined in the editoptionsviewcontroller class, and this class adopts the protocol by declaring a newFontStyle variable (which, when set in the popover by choosing a new font, updates the value of memeFont which then calls the setText() method to update the screen).
+    /// this method presents the options view controller (as a popoever, even on iPhone) for controlling image scale and font selection; delegation is used for the purpose of enabling the user to update the font from the popover and have the font update in real time (without needing to dismiss the popover); an "UpdateFontDelegate" protocol is defined in the editoptionsviewcontroller class, and this class adopts the protocol by declaring a newFontStyle variable (which, when set in the popover by choosing a new font, updates the value of memeFont which then calls the setText() method to update the screen).
     func showOptions() {
         if let eovc = storyboard?.instantiateViewControllerWithIdentifier("optionsViewController") as? EditOptionsViewController {
             eovc.modalPresentationStyle = .Popover
@@ -141,7 +140,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    //method that writes the memed image to disk (including both original and memed images), and saves the memed imaged to a singleton instance of type [MemeObject], which will be shared across view controllers
+    ///this method writes the both the original and memed images to disk as JPEGs, saves the memed imaged (and original image and text) to an instance of the archivable type MemeObject, then update the singleton [MemeObject] instance (which is shared across view controllers) by appending the new meme object and saves the shared [MemeObject] to disk using NSKeyedArchiver.
     func saveMeme(topText: String, bottomText: String, originalImage: UIImage, memedImage: UIImage, date: NSDate) {
         let manager = NSFileManager.defaultManager()
         if let documentsPath = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
@@ -168,12 +167,12 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    //method that causes the meme editor view to disappear (this was changed from Meme Me V1, in which the "cancel" button just reset everything rather than dismissing a view controller)
+    ///this method causes the meme editor view to disappear (this was changed from MemeMe V1.0, in which the "cancel" button just reset everything rather than dismissing a view controller)
     func cancel() {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    //method that sets up the top and bottom meme text fields (note that the memeTextAttributes is a computed property which uses the value of "memeFont" as the font, which can be set using the options button)
+    ///this method sets up the top and bottom meme text fields (note that the memeTextAttributes is a computed property which uses the value of "memeFont" as the font, which can be set using the edit options popover via the "Options" button)
     func setText(topText: String, bottomText: String) {
         topTextField.borderStyle = .None
         topTextField.defaultTextAttributes = memeTextAttributes
@@ -195,23 +194,24 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    //method for creating an alert with a specific title and message
+    ///this method creates an alert with a specific title, message, and completion handler (as a note, the only time a completion handler is provided is when the user selects an activity from the share meme menu; in this casae the "OK" button then leads to a dismissal of the meme editor)
     func callAlert(title: String, message: String, handler: ((UIAlertAction) -> Void)?) {
         let ac = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: handler))
         presentViewController(ac, animated: true, completion: nil)
     }
     
-    //the two methods below are called when a keyboardWillShow or keyboardWillHide notification is received; the shiftView method is passed a closure as an argument which defines the operation (either addition or subtraction) that should occur to the view's frame based on if the keyboard is showing or hiding; shorthand closure notation is used for convenience.
+    //this method is called when a keyboardWillShow notification is received; the shiftView method is passed a closure as an argument which defines that subtraction should occur to the view's frame based on the keyboard showing; shorthand closure notation is used for convenience.
     func keyboardWillShow(notification: NSNotification) {
         shiftView(notification) { return $0 - $1 }
     }
-
+   
+    //this method is called when a keyboardWillHide notification is received; the shiftView method is passed a closure as an argument which defines that addition should occur to the view's frame based on the keyboard hiding; shorthand closure notation is used for convenience.
     func keyboardWillHide(notification: NSNotification) {
         shiftView(notification) { return $0 + $1 }
     }
     
-    //method for shifting the view in response to the keyboard showing or hiding; the method has a closure parameter which takes two CGFloats and either adds or subtracts them; the shift up/down only occurs if the bottom textfield is active (the bottom textfield has a tag set to 2); the two CGFloats being operated on are the y coordinate of the view's frame and an "offset" involving the height of the keyboard and the height of the toolbar (note that the "activefield" property is set to whichever textfield is clicked on, set in the textFieldDidBeginEditing delegate method below)
+    ///this method causes the view to shift in response to the keyboard showing or hiding; the method has a closure parameter which takes two CGFloats and either adds or subtracts them; the shift up/down only occurs if the bottom textfield is active (the bottom textfield has a tag set to 2); the two CGFloats being operated on are the y coordinate of the view's frame and an "offset" involving the height of the keyboard and the height of the toolbar (note that the "activefield" property is set to whichever textfield is clicked on, set in the textFieldDidBeginEditing delegate method below)
     func shiftView(notification: NSNotification, operation: (CGFloat, CGFloat) -> CGFloat) {
         if let tag = activeTextField?.tag {
             if tag == 2 {
@@ -222,20 +222,20 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    //method that extracts the height of the keyboard from the userinfo property of the notification
+    ///this method extracts the height of the keyboard from the userinfo property of the notification
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.CGRectValue().height
     }
     
-    //method that subscribes the viewcontroller to receive keyboard notifications
+    ///this method subscribes the viewcontroller to receive keyboard notifications
     func subscribeToKeyboardNotifications() {
         notificationCenter.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
 
-    //method that unsubscribes the viewcontroller from keyboard notifications
+    ///this method unsubscribes the viewcontroller from keyboard notifications
     func unsubscribeFromKeyboardNotifications() {
         notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
@@ -287,6 +287,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     //MARK: VIEW CONTROLLER LIFECYCLE
+    //in viewdidload, the navigation bar and toolbar buttons are added, the background text is adjusted based on sourcetype availability, delegates are set, and the original image is loaded if this view is being segued to from the meme viewer (otherwise, there is no initial image showing, other than the default background)
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -316,8 +317,8 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         topTextField.tag = 1
         bottomTextField.tag = 2
         
+        //loads the original image used in the meme only if this view is being segued to from the meme viewer (in which case, a meme is loaded and when the segue occurs, the prepareforsegue from the meme viewer to this meme editor sets the memeToEdit variable to be equal to the original image; if this segue does not occur, then memeToEdit is nil and "else" runs).
         if let memeToEdit = memeToEdit {
-            //imageView.image = memeToEdit.originalImage
             imageView.image = memeToEdit.getImage(MemeObject.ImageType.Original)
             blackBackground.backgroundColor = UIColor.blackColor()
             setText(memeToEdit.topText, bottomText: memeToEdit.bottomText)

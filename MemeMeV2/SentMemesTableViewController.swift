@@ -11,6 +11,7 @@ import UIKit
 class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     //MARK: OUTLETS
+    //the delegate and datasource are set as soon as the tableview outlet is set
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.delegate = self
@@ -19,6 +20,7 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
     }
     
     //MARK: CUSTOM METHODS
+    ///this method is the action attached to the "+" button in the navigation bar and causes a segue to occur (prepareForSegue is invoked here, but because the destination view controller doesn't need to be set up when adding a new meme, no setup specific to the "showMemeEditorFromTable" segue identifier occurs in the prepareForSegue call)
     func addMeme() {
         performSegueWithIdentifier("showMemeEditorFromTable", sender: nil)
     }
@@ -26,16 +28,16 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
     //MARK: DELEGTE METHODS
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
+        //sets up the prototype cell's display settings
         let cell = tableView.dequeueReusableCellWithIdentifier("memeCell") as! MemeTableViewCell
-        // accidentally had cell.clipstobounds and cell.contentmode set, rather than the imageview
         cell.tableCellImageView.layer.borderWidth = 1
         cell.tableCellImageView.layer.borderColor = UIColor.blackColor().CGColor
         cell.tableCellImageView.layer.cornerRadius = 5
         cell.tableCellImageView.clipsToBounds = true
         cell.tableCellImageView.contentMode = .ScaleAspectFill
-        
+
+        //sets the data of each cell using the shared saved memes array; note that the imageview of the cell is being updated to the memed image as retrieved using the "getImage" method on the meme object using the "Memed" ImageType (this method and type are both defined as part of the MemeObject class), as well as the global "getDateFromMeme" function which is defined in the functions.swift file (and also used by the collection view)
         let memeCollection = Memes.sharedInstance.savedMemes
-        
         cell.tableCellTopLabel.text = memeCollection[indexPath.row].topText
         cell.tableCellBottomLabel.text = memeCollection[indexPath.row].bottomText
         cell.tableCellDateLabel.text = "Shared on " + getDateFromMeme(memeCollection[indexPath.row])
@@ -45,20 +47,24 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         return Memes.sharedInstance.savedMemes.count
     }
     
+    //this delegate method allows the user to delete a meme (either by swiping left on the table cell OR by clicking the "Edit" button and using the the red delete circles), thus removing the meme from the table view, the shared saved [MemeObject] array, and also from the saved memes array on the file disk (by updating the current memes file on the disk with the updated Memes.sharedInstance.savedMemes that has the removed meme); the two associate image files are also manually deleted from the file disk using the removeFileAtPath method
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             Memes.sharedInstance.savedMemes.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             
             NSKeyedArchiver.archiveRootObject(Memes.sharedInstance.savedMemes, toFile: getMemeFilePath())
+            
+//TO DO:  DELETE FILES FROM DISK
+            
         }
     }
     
     //MARK: VIEW CONTROLLER METHODS
+    //preparation is necessary when segueing to the meme viewer from the table view after tapping on a row (but not when seguing to the meme editor when tapping the "+" button), and this preparation involves setting the memeToDisplay property to the specific meme that was selected; since outlets are NOT yet set on the destination view controller, it was not possible to set the imageView.image property directly from prepareForSegue, and instead the memeToDisplay property is set (which, when the meme viewer is about to appear, enables the imageView.image to THEN be set using the meme information passed in memeToDisplay, since outlets are set the time "viewWillAppear" is called)
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "TableToMemeViewer" {
             if let memeViewController = segue.destinationViewController as? MemeDetailViewController {
@@ -71,6 +77,7 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         }
     }
     
+    //this method was overridden as part of enabling the default behavior of the "Edit-Done" button (as created via the call to editButtonItem() in viewDidLoad), which turns on editing for an editable view, such as a table; it was necessary to override this method because the "Edit-Dont" button is associated with the view controller, NOT the table view, and so this overridden version of the method links the current state of the view controller's Edit-Done button (and value of the "editing" propoerty as either true or false) to the value of the tableView's editing value (so that when "Edit" is pressed in the view controller, the tableView goes into editing mode, and vice versa for "Done").
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
@@ -83,18 +90,21 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         tableView.reloadData()
     }
     
+    //in viewDidLoad, the navigation bar is set up with the "+" button to segue to the meme editor and with a built-in "Edit-Done" toggle button (by returning the button created via the view controller's editButtonItem() method), which is connected to the editing property, and the saved memes array is read from disk and loaded into the shared singleton [MemeObject] array; also, the title is set (to prevent the "Sent Memes" title from appering in the tab bar button underneath the tab bar button icon, it was necessary to set the view's title = "" and the navigationItem's title to "Sent Memes")
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addMeme")
         navigationItem.leftBarButtonItem = editButtonItem()
         
-        title = ""  //sets both navigation bar title AND tab bar title
-        navigationItem.title = "Sent Memes"
-        
+        //loads the shared memes array from memes that are saved to the file disk (these memes are saved as part of the saveMeme method in the meme editor)
         if let memes = NSKeyedUnarchiver.unarchiveObjectWithFile(getMemeFilePath()) as? [MemeObject] {
             Memes.sharedInstance.savedMemes = memes
         }
+        
+        //sets title to "" sets both navigation bar title AND tab bar title to ""; subsequently setting navigationItem's title to "Sent Memes" allowed just this title to be shown in the navigation bar (and not under the tab bar icon)
+        title = ""
+        navigationItem.title = "Sent Memes"
     }
 
 }

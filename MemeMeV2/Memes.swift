@@ -8,8 +8,7 @@
 
 import Foundation
 
-//class that encapsulates a thread-safe singleton instance of type [MemeObjects] which can be shared/accessed across view controllers and will hold the saved memed images (as an alternative approach to using the app delegate to store a single instance of an object)
-
+//this class below encapsulates a thread-safe singleton instance of type [MemeObjects] which can be shared/accessed across view controllers and will hold the saved memed images (as an alternative approach to using the app delegate to store a single instance of an object); the singleton is also what is updated and saved to disk when a new meme is added to or deleted from the array, and is set to the saved meme data on the file disk when the app is first launched.
 class Memes {
     static let sharedInstance = Memes()
     var savedMemes = [MemeObject]()
