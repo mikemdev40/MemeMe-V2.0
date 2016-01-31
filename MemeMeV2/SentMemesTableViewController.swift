@@ -54,7 +54,7 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             
-            //deletes the images from the file disk
+            //deletes the two images (original and memed) from the file disk
             let memeToDelete = Memes.sharedInstance.savedMemes[indexPath.row]
             let manager = NSFileManager.defaultManager()
             if let documentsPath = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
