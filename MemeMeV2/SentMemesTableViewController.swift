@@ -50,16 +50,32 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         return Memes.sharedInstance.savedMemes.count
     }
     
-    //this delegate method allows the user to delete a meme (either by swiping left on the table cell OR by clicking the "Edit" button and using the the red delete circles), thus removing the meme from the table view, the shared saved [MemeObject] array, and also from the saved memes array on the file disk (by updating the current memes file on the disk with the updated Memes.sharedInstance.savedMemes that has the removed meme); the two associate image files are also manually deleted from the file disk using the removeFileAtPath method
+    //this delegate method allows the user to delete a meme (either by swiping left on the table cell OR by clicking the "Edit" button and using the the red delete circles), thus removing the two associated image files from the file disk (using the removeFileAtPath method), removes the meme from the shared [MemeObject] array, removes the row from the table view, and updates the saved memes array on the file disk (by saving the memes file on the disk with the updated Memes.sharedInstance.savedMemes that has the meme removed)
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
+            
+            //deletes the images from the file disk
+            let memeToDelete = Memes.sharedInstance.savedMemes[indexPath.row]
+            let manager = NSFileManager.defaultManager()
+            if let documentsPath = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
+                let originalImagePathURL = documentsPath.URLByAppendingPathComponent(memeToDelete.originalImagePath)
+                let memedImagePathURL = documentsPath.URLByAppendingPathComponent(memeToDelete.memedImagePath)
+                do {
+                    try manager.removeItemAtURL(originalImagePathURL)
+                    try manager.removeItemAtURL(memedImagePathURL)
+                } catch let error as NSError {
+                    print(error.description)
+                }
+            }
+            
+            //deletes the meme from the shared Memes [MemeObject] array
             Memes.sharedInstance.savedMemes.removeAtIndex(indexPath.row)
+            
+            //deletes the row from the table
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             
+            //updates the saved memes array on the file disk
             NSKeyedArchiver.archiveRootObject(Memes.sharedInstance.savedMemes, toFile: getMemeFilePath())
-            
-//TO DO:  DELETE FILES FROM DISK
-            
         }
     }
     
