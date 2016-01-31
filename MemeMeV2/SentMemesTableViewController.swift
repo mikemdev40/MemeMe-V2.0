@@ -39,7 +39,7 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         cell.tableCellTopLabel.text = memeCollection[indexPath.row].topText
         cell.tableCellBottomLabel.text = memeCollection[indexPath.row].bottomText
         cell.tableCellDateLabel.text = "Shared on " + getDateFromMeme(memeCollection[indexPath.row])
-        cell.tableCellImageView.image = memeCollection[indexPath.row].memedImage
+        cell.tableCellImageView.image = memeCollection[indexPath.row].getImage(MemeObject.ImageType.Memed)
         
         return cell
     }

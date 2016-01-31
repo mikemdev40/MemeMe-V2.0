@@ -61,7 +61,7 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         cell.memeImage.contentMode = .ScaleAspectFill
         
         let memeCollection = Memes.sharedInstance.savedMemes
-        cell.memeImage.image = memeCollection[indexPath.row].memedImage
+        cell.memeImage.image = memeCollection[indexPath.row].getImage(MemeObject.ImageType.Memed)
         cell.memeLabel.text = "Shared " + getDateFromMeme(memeCollection[indexPath.row])
 
         return cell

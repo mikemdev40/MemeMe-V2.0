@@ -32,7 +32,7 @@ class MemeDetailViewController: UIViewController {
         tabBarController?.tabBar.hidden = true
         imageView.contentMode = .ScaleAspectFit
         imageView.clipsToBounds = true
-        imageView.image = memeToDisplay?.memedImage
+        imageView.image = memeToDisplay?.getImage(MemeObject.ImageType.Memed)
     }
     
     override func viewWillDisappear(animated: Bool) {

@@ -103,8 +103,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
                 if error != nil {
                     self.callAlert("Error", message: error!.localizedDescription, handler: nil)
                 } else if activity != nil {
-                    self.meme = MemeObject(topText: topText, bottomText: bottomText, originalImage: imageToMeme, memedImage: memedImage, date: NSDate())
-                    self.saveMeme(self.meme)
+                    self.saveMeme(topText, bottomText: bottomText, originalImage: imageToMeme, memedImage: memedImage, date: NSDate())
                     self.callAlert("SAVED", message: "Memed image was saved.") {
                         [unowned self] (action) -> Void in
                             self.dismissViewControllerAnimated(true, completion: nil)
@@ -142,9 +141,27 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    //method that saves the memed imaged to a singleton instance of type [MemeObject], which will be shared across view controllers
-    func saveMeme(memeToSave: MemeObject) {
-        Memes.sharedInstance.savedMemes.insert(memeToSave, atIndex: 0)
+    //method that writes the memed image to disk (including both original and memed images), and saves the memed imaged to a singleton instance of type [MemeObject], which will be shared across view controllers
+    func saveMeme(topText: String, bottomText: String, originalImage: UIImage, memedImage: UIImage, date: NSDate) {
+        let fileManager = NSFileManager()
+        if let documentsPath = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
+            var randomFileName = NSUUID().UUIDString
+            
+            let originalImagePathURL = documentsPath.URLByAppendingPathComponent(randomFileName)
+            if let originalImageData = UIImageJPEGRepresentation(originalImage, 1.0) {
+                originalImageData.writeToURL(originalImagePathURL, atomically: true)
+            }
+            
+            randomFileName = NSUUID().UUIDString
+            
+            let memedImagePathURL = documentsPath.URLByAppendingPathComponent(randomFileName)
+            if let memedImageData = UIImageJPEGRepresentation(memedImage, 1.0) {
+                memedImageData.writeToURL(memedImagePathURL, atomically: true)
+            }
+
+            meme = MemeObject(topText: topText, bottomText: bottomText, originalImageURL: originalImagePathURL, memedImageURL: memedImagePathURL, date: date)
+            Memes.sharedInstance.savedMemes.insert(meme, atIndex: 0)
+        }
     }
     
     //method that causes the meme editor view to disappear (this was changed from Meme Me V1, in which the "cancel" button just reset everything rather than dismissing a view controller)
@@ -296,7 +313,8 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         bottomTextField.tag = 2
         
         if let memeToEdit = memeToEdit {
-            imageView.image = memeToEdit.originalImage
+            //imageView.image = memeToEdit.originalImage
+            imageView.image = memeToEdit.getImage(MemeObject.ImageType.Original)
             blackBackground.backgroundColor = UIColor.blackColor()
             setText(memeToEdit.topText, bottomText: memeToEdit.bottomText)
         } else {
