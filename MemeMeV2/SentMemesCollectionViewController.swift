@@ -35,13 +35,21 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
     func layoutCells() {
         var cellWidth: CGFloat
         var numWide: CGFloat
-        if UIDevice.currentDevice().orientation.isPortrait {
+        
+        switch UIDevice.currentDevice().orientation {
+        case .Portrait:
             numWide = 3
-            cellWidth = collectionView.frame.width / numWide
-        } else {
+        case .PortraitUpsideDown:
+            numWide = 3
+        case .LandscapeLeft:
             numWide = 4
-            cellWidth = collectionView.frame.width / numWide
+        case .LandscapeRight:
+            numWide = 4
+        default:
+            numWide = 4
         }
+        cellWidth = collectionView.frame.width / numWide
+
         cellWidth -= Constants.CellVerticalSpacing
         flowLayout.itemSize.width = cellWidth
         flowLayout.itemSize.height = cellWidth
@@ -102,7 +110,5 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDeleg
         
         title = ""  //sets both navigation bar title AND tab bar title
         navigationItem.title = "Sent Memes"
-        
     }
-    
 }
