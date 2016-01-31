@@ -144,7 +144,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     
     //method that saves the memed imaged to a singleton instance of type [MemeObject], which will be shared across view controllers
     func saveMeme(memeToSave: MemeObject) {
-        Memes.sharedInstance.savedMemes.append(memeToSave)
+        Memes.sharedInstance.savedMemes.insert(memeToSave, atIndex: 0)
     }
     
     //method that causes the meme editor view to disappear (this was changed from Meme Me V1, in which the "cancel" button just reset everything rather than dismissing a view controller)
@@ -294,12 +294,6 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         bottomTextField.delegate = self
         topTextField.tag = 1
         bottomTextField.tag = 2
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        subscribeToKeyboardNotifications()
         
         if let memeToEdit = memeToEdit {
             imageView.image = memeToEdit.originalImage
@@ -308,6 +302,12 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         } else {
             setText(Constants.placeholderText, bottomText: Constants.placeholderText)
         }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        subscribeToKeyboardNotifications()
     }
     
     override func viewWillDisappear(animated: Bool) {

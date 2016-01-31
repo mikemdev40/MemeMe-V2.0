@@ -16,5 +16,4 @@ struct MemeObject {
     var originalImage: UIImage
     var memedImage: UIImage
     var date: NSDate
-    
 }
