@@ -143,24 +143,28 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     
     //method that writes the memed image to disk (including both original and memed images), and saves the memed imaged to a singleton instance of type [MemeObject], which will be shared across view controllers
     func saveMeme(topText: String, bottomText: String, originalImage: UIImage, memedImage: UIImage, date: NSDate) {
-        let fileManager = NSFileManager()
-        if let documentsPath = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
+        let manager = NSFileManager.defaultManager()
+        if let documentsPath = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
             var randomFileName = NSUUID().UUIDString
             
-            let originalImagePathURL = documentsPath.URLByAppendingPathComponent(randomFileName)
+            let originalImagePath = randomFileName
+            let originalImagePathURL = documentsPath.URLByAppendingPathComponent(originalImagePath)
             if let originalImageData = UIImageJPEGRepresentation(originalImage, 1.0) {
                 originalImageData.writeToURL(originalImagePathURL, atomically: true)
             }
             
             randomFileName = NSUUID().UUIDString
             
-            let memedImagePathURL = documentsPath.URLByAppendingPathComponent(randomFileName)
+            let memedImagePath = randomFileName
+            let memedImagePathURL = documentsPath.URLByAppendingPathComponent(memedImagePath)
             if let memedImageData = UIImageJPEGRepresentation(memedImage, 1.0) {
                 memedImageData.writeToURL(memedImagePathURL, atomically: true)
             }
 
-            meme = MemeObject(topText: topText, bottomText: bottomText, originalImageURL: originalImagePathURL, memedImageURL: memedImagePathURL, date: date)
+            meme = MemeObject(topText: topText, bottomText: bottomText, originalImagePath: originalImagePath, memedImagePath: memedImagePath, date: date)
             Memes.sharedInstance.savedMemes.insert(meme, atIndex: 0)
+
+            NSKeyedArchiver.archiveRootObject(Memes.sharedInstance.savedMemes, toFile: getMemeFilePath())
         }
     }
     

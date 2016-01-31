@@ -53,6 +53,8 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         if editingStyle == .Delete {
             Memes.sharedInstance.savedMemes.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
+            NSKeyedArchiver.archiveRootObject(Memes.sharedInstance.savedMemes, toFile: getMemeFilePath())
         }
     }
     
@@ -90,7 +92,9 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
         title = ""  //sets both navigation bar title AND tab bar title
         navigationItem.title = "Sent Memes"
         
-        
+        if let memes = NSKeyedUnarchiver.unarchiveObjectWithFile(getMemeFilePath()) as? [MemeObject] {
+            Memes.sharedInstance.savedMemes = memes
+        }
     }
 
 }

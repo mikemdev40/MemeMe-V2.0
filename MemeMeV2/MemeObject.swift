@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct MemeObject {
+class MemeObject: NSObject, NSCoding {
     
     enum ImageType {
         case Original
@@ -18,25 +18,54 @@ struct MemeObject {
     
     var topText: String
     var bottomText: String
-    var originalImageURL: NSURL
-    var memedImageURL: NSURL
+    var originalImagePath: String
+    var memedImagePath: String
     var date: NSDate
     
     func getImage(type: ImageType) -> UIImage? {
         if type == .Original {
-            return retrieveImage(originalImageURL)
+            return retrieveImage(originalImagePath)
         } else if type == .Memed {
-            return retrieveImage(memedImageURL)
+            return retrieveImage(memedImagePath)
         }
         return nil
     }
     
-    private func retrieveImage(url: NSURL) -> UIImage? {
-        if let imageData = NSData(contentsOfURL: url) {
-            if let image = UIImage(data: imageData) {
-                return image
+    private func retrieveImage(path: String) -> UIImage? {
+        let manager = NSFileManager.defaultManager()
+        if let documentsPath = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
+            let memeFilePath = documentsPath.URLByAppendingPathComponent(path)
+            if let imageData = NSData(contentsOfURL: memeFilePath) {
+                if let image = UIImage(data: imageData) {
+                    return image
+                }
             }
         }
         return nil
+    }
+    
+    init(topText: String, bottomText: String, originalImagePath: String, memedImagePath: String, date: NSDate) {
+        self.topText = topText
+        self.bottomText = bottomText
+        self.originalImagePath = originalImagePath
+        self.memedImagePath = memedImagePath
+        self.date = date
+    }
+    
+    //REQUIRED NSCODING PROTOCOL METHODS for persisting [MemeObjects] in between app launches
+    required init?(coder aDecoder: NSCoder) {
+        topText = aDecoder.decodeObjectForKey("topText") as! String
+        bottomText = aDecoder.decodeObjectForKey("bottomText") as! String
+        originalImagePath = aDecoder.decodeObjectForKey("originalImagePath") as! String
+        memedImagePath = aDecoder.decodeObjectForKey("memedImagePath") as! String
+        date = aDecoder.decodeObjectForKey("date") as! NSDate
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(topText, forKey: "topText")
+        aCoder.encodeObject(bottomText, forKey: "bottomText")
+        aCoder.encodeObject(originalImagePath, forKey: "originalImagePath")
+        aCoder.encodeObject(memedImagePath, forKey: "memedImagePath")
+        aCoder.encodeObject(date, forKey: "date")
     }
 }
