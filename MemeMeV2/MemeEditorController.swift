@@ -176,17 +176,9 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     
     ///this method sets up the top and bottom meme text fields (note that the memeTextAttributes is a computed property which uses the value of "memeFont" as the font, which can be set using the edit options popover via the "Options" button)
     func setText(topText: String, bottomText: String) {
-        topTextField.borderStyle = .None
-        topTextField.defaultTextAttributes = memeTextAttributes
-        topTextField.textAlignment = .Center
-        topTextField.adjustsFontSizeToFitWidth = false
-        topTextField.minimumFontSize = 20
         
-        bottomTextField.borderStyle = .None
-        bottomTextField.defaultTextAttributes = memeTextAttributes
-        bottomTextField.textAlignment = .Center
-        bottomTextField.adjustsFontSizeToFitWidth = false
-        bottomTextField.minimumFontSize = 20
+        setupTextField(topTextField)
+        setupTextField(bottomTextField)
         
         if topTextField.text == "" {
             topTextField.text = topText
@@ -194,6 +186,14 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         if bottomTextField.text == "" {
             bottomTextField.text = bottomText
         }
+    }
+    
+    func setupTextField(textField: UITextField) {
+        textField.borderStyle = .None
+        textField.defaultTextAttributes = memeTextAttributes
+        textField.textAlignment = .Center
+        textField.adjustsFontSizeToFitWidth = false
+        textField.minimumFontSize = 20
     }
     
     ///this method creates an alert with a specific title, message, and completion handler (as a note, the only time a completion handler is provided is when the user selects an activity from the share meme menu; in this casae the "OK" button then leads to a dismissal of the meme editor)
