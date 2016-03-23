@@ -262,6 +262,7 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     //delegate method that is called when a textfield is clicked on; the activefield property is set here, for use when determining if the keyboard should cause the view to shift up or not
     func textFieldDidBeginEditing(textField: UITextField) {
         activeTextField = textField
+        print("textfielddidbegin")
         if textField.text == Constants.placeholderText {
             textField.text = ""
         }
