@@ -111,7 +111,7 @@ class SentMemesTableViewController: UIViewController, UITableViewDelegate, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addMeme")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(SentMemesTableViewController.addMeme))
         navigationItem.leftBarButtonItem = editButtonItem()
         
         //loads the shared memes array from memes that are saved to the file disk (these memes are saved as part of the saveMeme method in the meme editor)

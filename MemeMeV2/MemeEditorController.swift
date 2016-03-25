@@ -233,8 +233,8 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     
     ///this method subscribes the viewcontroller to receive keyboard notifications
     func subscribeToKeyboardNotifications() {
-        notificationCenter.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(MemeEditorController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(MemeEditorController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
 
     ///this method unsubscribes the viewcontroller from keyboard notifications
@@ -262,7 +262,6 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
     //delegate method that is called when a textfield is clicked on; the activefield property is set here, for use when determining if the keyboard should cause the view to shift up or not
     func textFieldDidBeginEditing(textField: UITextField) {
         activeTextField = textField
-        print("textfielddidbegin")
         if textField.text == Constants.placeholderText {
             textField.text = ""
         }
@@ -295,14 +294,14 @@ class MemeEditorController: UIViewController, UIImagePickerControllerDelegate, U
         super.viewDidLoad()
         
         title = "Editor"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "cancel")
-        shareAndSaveButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareAndSaveMeme")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: #selector(MemeEditorController.cancel))
+        shareAndSaveButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(MemeEditorController.shareAndSaveMeme))
         navigationItem.leftBarButtonItem = shareAndSaveButton
             
         barSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-        cameraButton = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: "takeImageWithCamera")
-        albumButton = UIBarButtonItem(title: "Album", style: .Plain, target: self, action: "pickImageFromAlbum")
-        optionsButton = UIBarButtonItem(title: "Options", style: .Plain, target: self, action: "showOptions")
+        cameraButton = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: #selector(MemeEditorController.takeImageWithCamera))
+        albumButton = UIBarButtonItem(title: "Album", style: .Plain, target: self, action: #selector(MemeEditorController.pickImageFromAlbum))
+        optionsButton = UIBarButtonItem(title: "Options", style: .Plain, target: self, action: #selector(MemeEditorController.showOptions))
 
         toolbarItems = [barSpace, albumButton, barSpace, cameraButton, barSpace, optionsButton, barSpace]
         
